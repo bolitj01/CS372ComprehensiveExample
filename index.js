@@ -1,10 +1,17 @@
 const express = require('express');
 const db = require('./db');
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' })
 
 let app = express();
 app.use(express.json());
 
-app.use(express.static('public'));
+app.use(express.static('public'))
+app.use(express.static('uploads'))
+
+app.get("/", (req, res) => {
+    res.sendFile("public/index.html");
+});
 
 app.get('/posts', (req, res) => {
  db.getAll()
@@ -17,7 +24,7 @@ app.get('/posts', (req, res) => {
         });
 });
 
-app.post('/posts', (req, res) => {
+app.post('/posts', upload.single('file'), (req, res) => {
     const postParams = req.body;
     db.create(postParams)
         .then(() => {

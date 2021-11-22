@@ -5,7 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Not Instagram</title>
     <link rel="stylesheet" href="style.css">
-    <script src="dragAndDrop.js"></script>
+    <script>
+      async function sendPost(file) {
+        console.log(file);
+        var formData = new FormData();
+        formData.append("file", file);
+
+        const options = {
+          method: 'POST',
+          body: formData
+        }
+
+        await fetch('/posts', options).then((res) => {
+          console.log(res);
+        })
+      }
+    </script>
 </head>
 <body>
 <div>
@@ -14,13 +29,13 @@
     <header>Drag & Drop to Upload File</header>
     <span>OR</span>
     <button>Browse File</button>
-    <input type="file" hidden>
+    <input id="fc" type="file" hidden onchange="sendPost(this.files[0])">
   </div>
   <div class="thumbsDiv">
     <input class="thumbs" type="image" style="width:50px ; height:50px" src="Like.png"></input>
     <input class="thumbs" type="image" style="width:50px ; height:50px" src="Dislike.png"></input>
   </div>
 </div>
-
+<script src="dragAndDrop.js"></script>
 </body>
 </html>

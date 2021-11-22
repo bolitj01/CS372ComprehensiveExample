@@ -35,7 +35,7 @@ module.exports.like = async (id) => {
  */
 module.exports.dislike = async (id) => {
     const post = await Post.findById(id);
-    post.likes++;
+    post.dislikes++;
     await post.save();
 }
 
